@@ -1,5 +1,6 @@
 package com.rpc.handle;
 
+import javax.xml.ws.spi.Invoker;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationHandler;
@@ -23,6 +24,11 @@ public class ServiceInvokeHandle implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        Class<?> clazz = method.getDeclaringClass();
+        //拦截Object类中的方法，未被子类重写的方法比如 wati，notify方法
+        if(clazz == Object.class){
+
+        }
         Socket socket = new Socket(ip,port);
         //防止流阻塞客户端设置为 先 输出流后 输入流
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
